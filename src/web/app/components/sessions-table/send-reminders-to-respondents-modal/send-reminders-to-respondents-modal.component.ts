@@ -28,7 +28,6 @@ export class SendRemindersToRespondentsModalComponent {
   }
 
   ngOnInit() {
-    console.log(this.studentListInfoTableRowModels);
     this.studentListInfoTableRowModels.sort((a, b) => {
       if (a.hasSubmittedSession && !b.hasSubmittedSession) {
         return 1;
