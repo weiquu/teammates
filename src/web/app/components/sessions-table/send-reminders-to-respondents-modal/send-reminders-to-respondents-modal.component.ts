@@ -27,6 +27,23 @@ export class SendRemindersToRespondentsModalComponent {
   constructor(public activeModal: NgbActiveModal) {
   }
 
+  ngOnInit() {
+    console.log(this.studentListInfoTableRowModels);
+    this.studentListInfoTableRowModels.sort((a, b) => {
+      if (a.hasSubmittedSession && !b.hasSubmittedSession) {
+        return 1;
+      } else if (!a.hasSubmittedSession && b.hasSubmittedSession) {
+        return -1;
+      } else {
+        if (a.name < b.name) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+    });
+  }
+
   /**
    * Changes selection state for all students.
    */
