@@ -1,0 +1,137 @@
+<div style="width: 100%">
+    <form>
+        <div class="mb-3 row">
+            <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+            <div class="col-xs-3 col-sm-auto">
+                <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter" />
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead
+            [ngClass]="{'thead-gray': useGrayHeading, 'alert-primary font-weight-bold': !useGrayHeading}"
+            [hidden]="isHideTableHead"
+        >
+            <tr>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_TRACKING_ID)">
+                    Ticket #
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_TRACKING_ID && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_TRACKING_ID && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                      </span>
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_STATUS)">
+                    Status
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_ENQUIRY_TYPE)">
+                    Enquiry Type
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_ENQUIRY_TYPE && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_ENQUIRY_TYPE && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_EMAIL)">
+                    Email
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                      </span>
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_NAME)">
+                    Name
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                      </span>
+                </th>
+                <th scope="col">
+                    Action(s)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let req of supportReqRowsInPage">
+                <td>
+                    <ngb-highlight [result]="req.id" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                    <div ngbDropdown class="d-inline-block">
+                        <button [ngClass]="
+                        {
+                            'no-action-status': req.status === 'NEW' || req.status === 'AWAITING_ADMIN_ACTION', 
+                            'require-action-status': req.status === 'RESOLVED' || req.status === 'AWAITING_USER_ACTION'
+                        }"
+                        type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
+                            <ngb-highlight [result]="req.status" [term]="filter.value"></ngb-highlight>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <button *ngFor="let status of SUPPORT_REQ_STATUSES" (click)="updateSupportRequestStatus(req, status)" ngbDropdownItem>{{ status }}</button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <ngb-highlight [result]="req.type" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="req.email" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="req.name" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td class="no-print align-center">
+                    <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name" let-id="id"
+                        let-tmRouterLink="tmRouterLink" let-queryParams="queryParams">
+                        <a class="btn btn-light btn-sm btn-margin-right" target="_blank" rel="noopener noreferrer"
+                            [id]="id"
+                            [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
+                            [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
+                            [tmRouterLink]="tmRouterLink"
+                            [queryParams]="queryParams">
+                            {{name}}</a>
+                    </ng-template>
+                    <ng-container *ngTemplateOutlet="actionButton; 
+                    context: {
+                        id: 'btn-view-records', 
+                        isEnabled: isActionButtonsEnabled, 
+                        tooltip: 'View message history', 
+                        name: 'View messages',
+                        tmRouterLink: ['/web/admin/support/', req.id] 
+                    }">
+                    </ng-container>
+                    <button id="btn-delete" class="btn btn-light btn-sm btn-margin-right"
+                        [ngbTooltip]="'Delete this support request'"
+                        [disabled]="!isActionButtonsEnabled"
+                        (click)="openDeleteModal(req)"> 
+                        Delete 
+                    </button>
+                  </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+            [collectionSize]="collectionSize"
+            [(page)]="page"
+            [pageSize]="pageSize"
+            (pageChange)="refreshSupportReqPage()"
+        >
+        </ngb-pagination>
+
+        <select class="btn btn-outline-primary" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshSupportReqPage()">
+            <option [ngValue]="5">5 items per page</option>
+            <option [ngValue]="10">10 items per page</option>
+            <option [ngValue]="20">20 items per page</option>
+        </select>
+    </div>
+</div>
