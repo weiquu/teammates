@@ -6,7 +6,7 @@
     </div>
     <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
   </div>
-  <div ngbDropdown class="margin-top-15px">
+  <div #visibilityDrop="ngbDropdown" ngbDropdown class="margin-top-15px">
     <button id="btn-question-visibility" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable">
       <span *ngIf="!model.isUsingOtherVisibilitySetting">
         {{ model.commonVisibilitySettingName }}
@@ -16,11 +16,11 @@
     <ul id="question-visibility-dropdown" ngbDropdownMenu>
       <li class="dropdown-header">Common visibility options</li>
       <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings">
-        <button class="dropdown-button" (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</button>
+        <button class="dropdown-button" (click)="applyCommonVisibilitySettings(visibilityOption); visibilityDrop.close()">{{ visibilityOption.name }}</button>
       </li>
       <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
       <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed">
-        <button class="dropdown-button" (click)="triggerCustomVisibilitySetting()">Custom visibility options...</button>
+        <button class="dropdown-button" (click)="triggerCustomVisibilitySetting(); visibilityDrop.close()">Custom visibility options...</button>
       </li>
     </ul>
   </div>
