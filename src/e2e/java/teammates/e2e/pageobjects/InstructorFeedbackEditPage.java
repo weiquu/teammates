@@ -1223,7 +1223,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getDoubleString(Double value) {
-        return value.intValue() == value ? Integer.toString(value.intValue()) : Double.toString(value);
+        return value % 1 == 0 ? Integer.toString(value.intValue()) : Double.toString(value);
     }
 
     private WebElement getOptionsSection(int questionNum) {
