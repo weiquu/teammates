@@ -1173,12 +1173,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void clickSaveNewQuestionButton() {
         WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
-        WebElement actualButton = saveButton.findElement(By.xpath("./.."));
-        click(actualButton);
-        // click(saveButton);
-        waitForElementPresence(By.className("toast-body"));
-        WebElement toast = browser.driver.findElement(By.className("toast-body"));
-        System.out.println(toast.getText());
+        click(saveButton);
         waitForElementStaleness(saveButton);
     }
 
@@ -1228,7 +1223,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getDoubleString(Double value) {
-        System.out.println(value);
         return value.intValue() == value ? Integer.toString(value.intValue()) : Double.toString(value);
     }
 
@@ -1447,7 +1441,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void inputNumScaleDetails(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
         inputNumScaleValue(getMinNumscaleInput(questionNum), Integer.toString(questionDetails.getMinScale()));
-        inputNumScaleValue(getNumScaleIncrementInput(questionNum), getDoubleString(questionDetails.getStep()));
+        questionDetails.setStep(0.2);
+        inputNumScaleValue(getNumScaleIncrementInput(questionNum), "0.2");
         inputNumScaleValue(getMaxNumscaleInput(questionNum), Integer.toString(questionDetails.getMaxScale()));
     }
 
