@@ -1441,8 +1441,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void inputNumScaleDetails(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
         inputNumScaleValue(getMinNumscaleInput(questionNum), Integer.toString(questionDetails.getMinScale()));
-        questionDetails.setStep(0.2);
-        inputNumScaleValue(getNumScaleIncrementInput(questionNum), "0.2");
+        inputNumScaleValue(getNumScaleIncrementInput(questionNum), getDoubleString(questionDetails.getStep()));
         inputNumScaleValue(getMaxNumscaleInput(questionNum), Integer.toString(questionDetails.getMaxScale()));
     }
 
