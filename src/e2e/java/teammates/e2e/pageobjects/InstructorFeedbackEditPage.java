@@ -1176,6 +1176,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement actualButton = saveButton.findElement(By.xpath("./.."));
         click(actualButton);
         // click(saveButton);
+        waitForElementPresence(By.className("toast-body"));
+        WebElement toast = browser.driver.findElement(By.className("toast-body"));
+        System.out.println(toast.getText());
         waitForElementStaleness(saveButton);
     }
 
