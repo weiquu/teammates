@@ -173,6 +173,7 @@
         "building-front-end-files": "Building front-end files",
         "logging-in-to-a-teammates-instance": "Logging in to a TEAMMATES instance",
         "logging-in-without-ui": "Logging in without UI",
+        "masquerading-as-another-user": "Masquerading as another user",
         "running-the-datastore-emulator": "Running the Datastore emulator",
         "stopping-the-emulator": "Stopping the emulator",
         "testing": "Testing",
@@ -351,6 +352,7 @@
       "title": "Troubleshooting Guide",
       "headings": {
         "developer-troubleshooting-guide": "Developer Troubleshooting Guide",
+        "common-setup-errors-and-solutions": "Common setup errors and solutions",
         "common-test-errors-and-solutions": "Common test errors and solutions",
         "submitting-help-request": "Submitting help request"
       },
