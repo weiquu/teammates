@@ -27,7 +27,8 @@ public class InstructorHomePage extends AppPage {
         return getPageTitle().contains("Home");
     }
 
-    public void verifyCourseTabDetails(int courseTabIndex, CourseAttributes course, FeedbackSessionAttributes[] sessions) {
+    public void verifyCourseTabDetails(int courseTabIndex, CourseAttributes course,
+            FeedbackSessionAttributes[] sessions) {
         String expectedDetails = "[" + course.getId() + "]: " + course.getName();
         assertEquals(getCourseDetails(courseTabIndex), expectedDetails);
 
@@ -40,7 +41,8 @@ public class InstructorHomePage extends AppPage {
 
     public void verifySessionDetails(int courseTabIndex, int sessionIndex, FeedbackSessionAttributes session) {
         String[] expectedValues = getExpectedSessionDetails(session);
-        WebElement sessionRow = getSessionsTable(courseTabIndex).findElements(By.cssSelector("tbody tr")).get(sessionIndex);
+        WebElement sessionRow = getSessionsTable(courseTabIndex).findElements(By.cssSelector("tbody tr"))
+                .get(sessionIndex);
         verifyTableRowValues(sessionRow, expectedValues);
     }
 
@@ -52,7 +54,8 @@ public class InstructorHomePage extends AppPage {
         assertEquals(expectedResponseRate, getResponseRate(courseTabIndex, sessionIndex));
     }
 
-    public void copySession(int courseTabIndex, int sessionIndex, CourseAttributes copyToCourse, String newSessionName) {
+    public void copySession(int courseTabIndex, int sessionIndex, CourseAttributes copyToCourse,
+            String newSessionName) {
         WebElement copyFsModal = clickCopyButtonInTable(courseTabIndex, sessionIndex);
         fillTextBox(copyFsModal.findElement(By.id("copy-session-name")), newSessionName);
         selectCourseToCopyToInModal(copyFsModal, copyToCourse.getId());
@@ -77,8 +80,7 @@ public class InstructorHomePage extends AppPage {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
         List<WebElement> remindSelectedButtons = browser.driver.findElements(
-                By.className("btn-remind-selected-" + sessionIndex)
-            );
+                By.className("btn-remind-selected-" + sessionIndex));
         click(remindSelectedButtons.get(remindSelectedButtons.size() - 1));
         selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
@@ -89,8 +91,7 @@ public class InstructorHomePage extends AppPage {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
         List<WebElement> remindSelectedButtons = browser.driver.findElements(
-                By.className("btn-remind-all-" + sessionIndex)
-            );
+                By.className("btn-remind-all-" + sessionIndex));
         click(remindSelectedButtons.get(remindSelectedButtons.size() - 1));
         click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
@@ -119,14 +120,14 @@ public class InstructorHomePage extends AppPage {
     public void archiveCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-course")));
-        clickAndConfirm(browser.driver.findElement(By.cssSelector("body > div > div >a.btn-archive-course.btn")));
+        clickAndConfirm(browser.driver.findElement(By.className("btn-archive-course")));
         waitUntilAnimationFinish();
     }
 
     public void deleteCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-course")));
-        clickAndConfirm(browser.driver.findElement(By.cssSelector("body > div > div > a.btn-delete-course.btn")));
+        clickAndConfirm(browser.driver.findElement(By.className("btn-delete-course")));
         waitUntilAnimationFinish();
     }
 
